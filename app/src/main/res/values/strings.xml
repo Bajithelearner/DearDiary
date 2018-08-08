@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Dear Diary</string>
+    <string name="forgotpassword">Forgot Password?</string>
+    <string name="register_label">Register</string>
+    <string name="add_today">Add New</string>
+    <string name="feed">Your Notes</string>
+    <string name="title_activity_diary_body">DiaryBodyActivity</string>
+</resources>
