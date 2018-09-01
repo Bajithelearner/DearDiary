@@ -10,26 +10,30 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".deardiary.ui.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+
         <activity
             android:name=".deardiary.ui.RegisterActivity"
             android:label="@string/register_label" />
+
         <activity
             android:name=".deardiary.ui.FeedActivity"
-            android:label="@string/feed" />
+            android:label="@string/feed">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         <activity
             android:name=".deardiary.ui.AddDiaryActivity"
             android:label="@string/add_today" />
         <activity
-            android:name=".deardiary.DiaryBodyActivity"
+            android:name=".deardiary.ui.DiaryBodyActivity"
             android:label="@string/title_activity_diary_body"
             android:theme="@style/AppTheme" />
-        <activity android:name=".deardiary.ui.DiaryBodyActivity"></activity>
+
     </application>
 
 </manifest>

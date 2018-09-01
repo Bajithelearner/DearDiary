@@ -9,3 +9,6 @@ import java.util.*
 
 @Entity(tableName = "dairy")
 data class DairyItem(@PrimaryKey(autoGenerate = true) var did: Int?, @ColumnInfo var date: String, @ColumnInfo var title : String, @ColumnInfo var body: String)
+{
+    constructor() : this(0,"","","")
+}
