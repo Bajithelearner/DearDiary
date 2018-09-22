@@ -25,23 +25,19 @@ import org.jetbrains.anko.*
 
 class FeedActivity : AppCompatActivity() {
 
-    val animals : ArrayList<String>? = null
+
     var diary_list : ArrayList<DairyItem> = ArrayList()
     var localitems : ArrayList<DairyItem> = ArrayList()
     var diaryadapter : DiaryAdapter? = null
     var items = mutableListOf<DairyItem?>()
     var firebase_auth = FirebaseAuth.getInstance()
-    lateinit var firebatch1 : WriteBatch
-    lateinit var firebatch2 : WriteBatch
-    lateinit var posts_collection : CollectionReference
+
     lateinit var firebase_auth_state_listener : FirebaseAuth.AuthStateListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_feed)
         setSupportActionBar(findViewById(R.id.feed_toolbar))
-        firebatch1 = FirebaseFirestore.getInstance().batch()
-        firebatch2 = FirebaseFirestore.getInstance().batch()
-        posts_collection = FirebaseFirestore.getInstance().collection("users/"+firebase_auth.currentUser?.email.toString()+"/posts")
+
         firebase_auth_state_listener = object : FirebaseAuth.AuthStateListener{
             override fun onAuthStateChanged(p0: FirebaseAuth) {
                 if(firebase_auth.currentUser != null)
@@ -59,7 +55,8 @@ class FeedActivity : AppCompatActivity() {
 
         if(firebase_auth.currentUser != null)
         {
-
+            val user = firebase_auth.currentUser
+            showMessage(user?.displayName.toString())
             diaryadapter = DiaryAdapter(diary_list, this@FeedActivity)
             feed_recycler_view.layoutManager = LinearLayoutManager(this@FeedActivity)
             feed_recycler_view.adapter = diaryadapter
@@ -101,24 +98,6 @@ class FeedActivity : AppCompatActivity() {
                 firebase_auth.signOut()
             }
 
-            R.id.sync -> {
-                posts_collection.get().addOnCompleteListener {
-                    if(it.isSuccessful)
-                    {
-                        it.result.documents.forEach {
-                            items.add(it.toObject(DairyItem::class.java))
-                        }
-
-                        val clouditems = ArrayList<DairyItem>(items)
-                        items.clear()
-                        syncLocalAndCloud(clouditems,localitems)
-
-
-
-                    }
-                }
-
-            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -162,7 +141,7 @@ class FeedActivity : AppCompatActivity() {
 
 
 
-    fun syncLocalAndCloud(clouditems : ArrayList<DairyItem>, localitems : ArrayList<DairyItem>)
+   /* fun syncLocalAndCloud(clouditems : ArrayList<DairyItem>, localitems : ArrayList<DairyItem>)
     {
         Log.v("count",clouditems.size.toString() + " "+localitems.size.toString())
         if(clouditems.size == localitems.size) { toast("Nothing to update "); return  }// no problem here
@@ -238,6 +217,6 @@ class FeedActivity : AppCompatActivity() {
                 firebatch2.commit()
             }
         }
-    }
+    }*/
 }
 

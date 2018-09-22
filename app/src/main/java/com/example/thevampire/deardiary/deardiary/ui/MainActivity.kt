@@ -8,9 +8,13 @@ import android.view.View
 import android.widget.Toast
 import com.example.thevampire.deardiary.R
 import com.example.thevampire.deardiary.deardiary.utils.FireBaseAuthUtil
+import com.example.thevampire.deardiary.deardiary.utils.isValidEmail
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 
+
 class MainActivity : AppCompatActivity() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -21,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     fun loginuser(v : View?) : View?
     {
         val username = edit_id.text.toString().trim()
-        val password = edit_password.text.toString()
+        val password = edit_password.text.trim().toString()
         if(username.isNotEmpty() && password.isNotEmpty() )
         {
             FireBaseAuthUtil(this@MainActivity).signIn_with_Email(v,username,password)
@@ -29,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         }
         else
         {
-            showMessage(v,"You need to enter username and password")
+            MainActivity.showMessage(v,"You need to enter username and password")
         }
 
 
@@ -38,9 +42,24 @@ class MainActivity : AppCompatActivity() {
 
     fun forgotuser( v: View?) : View?
     {
+        val firebase_auth = FirebaseAuth.getInstance()
+        var error :String? = null
 
-       // val intent = Intent(this, FeedActivity::class.java)
-        //startActivity(intent)
+       val email = edit_id.text.trim().toString()
+
+        error =  if(email.length>6 && email.isValidEmail()) null else "enter valid email address to proceed"
+        if(error==null)
+        {
+
+            firebase_auth.sendPasswordResetEmail(email).addOnSuccessListener {
+                showMessage(v,"reset email is sent ")
+            }.addOnFailureListener{
+                showMessage(v,it.message.toString())
+                error = "something went wrong"
+            }
+        }
+
+        if(error!=null) showMessage(v,error.toString())
         return v
     }
 
@@ -51,11 +70,14 @@ class MainActivity : AppCompatActivity() {
         return v
     }
 
-    private fun showMessage(v: View?, msg : String)
-    {
-        val vv : View = v as View
-        Snackbar.make(vv ,msg, Snackbar.LENGTH_SHORT).show()
+    companion object {
+        private fun showMessage(v: View?, msg : String)
+        {
+            val vv : View = v as View
+            Snackbar.make(vv ,msg, Snackbar.LENGTH_SHORT).show()
+        }
     }
+
 
 
 }

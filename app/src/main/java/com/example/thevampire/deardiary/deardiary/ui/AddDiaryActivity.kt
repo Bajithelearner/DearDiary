@@ -53,7 +53,7 @@ class AddDiaryActivity : AppCompatActivity() {
             val sdf = SimpleDateFormat("dd-MM-yyyy, HH : mm a").format(now.time)
             val dairy  = DairyItem(null,sdf.toUpperCase(),title.text.toString(),body.text.toString())
             insert(dairy)
-            upload(dairy)
+
             Toast.makeText(this,"Inserted",Toast.LENGTH_LONG).show()
             startActivity(Intent(this,FeedActivity::class.java))
             finish()
@@ -69,23 +69,7 @@ class AddDiaryActivity : AppCompatActivity() {
 
         }
 
-    public fun upload(diary: DairyItem)
-    {
-        mcollRef = FirebaseFirestore.getInstance().collection("users").document(firebase_auth.currentUser?.email.toString()).collection("posts")
 
-        mcollRef.add(diary).addOnCompleteListener { task ->
-            if(task.isSuccessful)
-            {
-                Log.v("upload","successfully uploaded the dfata")
-            }
-            else
-            {
-                Log.v("upload","oops something went wrong")
-            }
-        }
-
-
-    }
 
     class PopulateAsync {
 
