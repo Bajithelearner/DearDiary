@@ -1,19 +1,26 @@
 package com.example.thevampire.deardiary.deardiary.adapter
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import android.widget.Toast
 import com.example.thevampire.deardiary.deardiary.ui.DiaryBodyActivity
 import com.example.thevampire.deardiary.R
+import com.example.thevampire.deardiary.deardiary.database.DiaryDataBase
 import com.example.thevampire.deardiary.deardiary.database.entity.DairyItem
 import kotlinx.android.synthetic.main.diary_title_layout.view.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import java.util.*
 
-class DiaryAdapter(val diary_list : ArrayList<DairyItem>, val context : Context) : RecyclerView.Adapter<ViewHolder>()
+class DiaryAdapter(var diary_list : ArrayList<DairyItem>, val context : Context) : RecyclerView.Adapter<ViewHolder>()
 {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -39,8 +46,47 @@ class DiaryAdapter(val diary_list : ArrayList<DairyItem>, val context : Context)
             i.putExtra("dairy_title_key",title)
             context.startActivity(i)
         }
-
         )
+        holder.view_parent_item.setOnLongClickListener {holdIt ->
+
+            val alertDialog = AlertDialog.Builder(context)
+            alertDialog.setMessage("Are you Sure?")
+                    .setTitle("Delete")
+                    .setPositiveButton("Yes",DialogInterface.OnClickListener{
+                        dialog, which ->
+                        removefromDB(diary_list[position])
+                        removefromDataSet(position)
+                        Toast.makeText(context,"Deleted",Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
+                    })
+                    .setNegativeButton("Cancel",DialogInterface.OnClickListener{
+                        dialog, which ->
+                        dialog.dismiss()
+                    }).create()
+         alertDialog.show()
+
+
+
+            true
+        }
+    }
+
+    fun removefromDataSet( i : Int)
+    {
+
+        diary_list.removeAt(i)
+        notifyItemRemoved(i)
+        notifyItemRangeChanged(i,diary_list.size)
+    }
+
+    fun removefromDB(item : DairyItem)
+    {
+        doAsync {
+            val i = DiaryDataBase.getInstance(context)?.getDao()?.delete(item)
+            uiThread {
+                Toast.makeText(context,i.toString(),Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
 }

@@ -1,14 +1,15 @@
 package com.example.thevampire.deardiary.deardiary.database.Dao
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.Query
-import android.arch.persistence.room.Update
+import android.arch.persistence.room.*
 import com.example.thevampire.deardiary.deardiary.database.entity.DairyItem
 
 
 @Dao
 interface DairyDao{
+
+    @Delete
+    fun delete(item : DairyItem) : Int
+
     @Query("SELECT * FROM DAIRY")
     fun getAll() : List<DairyItem>
 
@@ -26,6 +27,8 @@ interface DairyDao{
 
     @Query("DELETE FROM dairy ")
     fun deleteAll() : Int
+
+
 
     @Insert
     fun insertAll(vararg items : DairyItem)

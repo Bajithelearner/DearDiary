@@ -123,7 +123,7 @@ class FeedActivity : AppCompatActivity() {
             val user = firebase_auth.currentUser
 
             usernametv?.text = user?.displayName.toString()
-            showMessage(user?.displayName.toString())
+            //showMessage(user?.displayName.toString())
             diaryadapter = DiaryAdapter(diary_list, this@FeedActivity)
             feed_recycler_view.layoutManager = LinearLayoutManager(this@FeedActivity)
             feed_recycler_view.adapter = diaryadapter
