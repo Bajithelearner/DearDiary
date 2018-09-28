@@ -9,22 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".deardiary.ui.MainActivity">
-
-        </activity>
-
+        <activity android:name=".deardiary.ui.MainActivity"></activity>
         <activity
             android:name=".deardiary.ui.RegisterActivity"
             android:label="@string/register_label" />
-
         <activity
             android:name=".deardiary.ui.FeedActivity"
             android:label="@string/feed">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".deardiary.ui.AddDiaryActivity"
@@ -33,7 +29,8 @@
             android:name=".deardiary.ui.DiaryBodyActivity"
             android:label="@string/title_activity_diary_body"
             android:theme="@style/AppTheme" />
-
+        <activity android:name=".deardiary.ui.AboutActivity"
+            android:label="About"></activity>
     </application>
 
 </manifest>

@@ -4,5 +4,7 @@
     <string name="register_label">Register</string>
     <string name="add_today">Add New</string>
     <string name="feed">Your Notes</string>
+    <string name="draweropen">Open</string>
+    <string name="drawerclose">Close</string>
     <string name="title_activity_diary_body">DiaryBodyActivity</string>
 </resources>

@@ -1,23 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:id="@+id/feed_relative_layout"
+<android.support.v4.widget.DrawerLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".deardiary.ui.FeedActivity">
+    android:id="@+id/mdawlerlayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <include
-        android:id="@+id/feed_toolbar"
-        layout="@layout/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible" />
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_below="@+id/feed_toolbar"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/feed_recycler_view"
-         />
-</RelativeLayout>
+        android:id="@+id/feed_relative_layout"
+        android:layout_height="match_parent"
+        tools:context=".deardiary.ui.FeedActivity">
+
+        <include
+            android:id="@+id/feed_toolbar"
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible" />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_below="@+id/feed_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/feed_recycler_view"
+            />
+    </RelativeLayout>
+    
+    <android.support.design.widget.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        android:id="@+id/navigationview"
+        app:menu="@menu/navigatin_drawer_menu"
+        app:headerLayout="@layout/nav_header_layout"
+        ></android.support.design.widget.NavigationView>
+</android.support.v4.widget.DrawerLayout>
+

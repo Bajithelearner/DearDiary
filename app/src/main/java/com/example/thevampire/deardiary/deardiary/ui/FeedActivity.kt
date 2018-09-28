@@ -4,24 +4,33 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.support.constraint.solver.widgets.Snapshot
+import android.support.design.widget.NavigationView
 import android.support.design.widget.Snackbar
+import android.support.v4.widget.DrawerLayout
+import android.support.v7.app.ActionBar
+import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
+import android.view.*
+import android.widget.TextView
 import android.widget.Toast
 import com.example.thevampire.deardiary.deardiary.adapter.DiaryAdapter
 import com.example.thevampire.deardiary.R
 import com.example.thevampire.deardiary.deardiary.database.DiaryDataBase
 import com.example.thevampire.deardiary.deardiary.database.entity.DairyItem
 import com.example.thevampire.deardiary.deardiary.utils.FireBaseAuthUtil
+import com.example.thevampire.deardiary.deardiary.utils.showMessage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import kotlinx.android.synthetic.main.activity_diary_body.*
 import kotlinx.android.synthetic.main.activity_feed.*
 import org.jetbrains.anko.*
+import com.example.thevampire.deardiary.R.layout.toolbar
+import kotlinx.android.synthetic.main.nav_header_layout.*
+import org.w3c.dom.Text
+
 
 class FeedActivity : AppCompatActivity() {
 
@@ -31,13 +40,69 @@ class FeedActivity : AppCompatActivity() {
     var diaryadapter : DiaryAdapter? = null
     var items = mutableListOf<DairyItem?>()
     var firebase_auth = FirebaseAuth.getInstance()
-
+    var mdrawlerLayout : DrawerLayout? = null
+    var mdrawerToggle : ActionBarDrawerToggle? = null
+    var usernametv : TextView? = null
     lateinit var firebase_auth_state_listener : FirebaseAuth.AuthStateListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_feed)
-        setSupportActionBar(findViewById(R.id.feed_toolbar))
 
+
+        setSupportActionBar(findViewById(R.id.feed_toolbar))
+        val actionbar : ActionBar? = supportActionBar
+        actionbar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            //setHomeAsUpIndicator(R.drawable.slide_icon)
+
+        }
+
+
+
+
+
+        mdrawerToggle?.isDrawerIndicatorEnabled = true
+        mdrawlerLayout = findViewById(R.id.mdawlerlayout)
+        mdrawerToggle =  object : ActionBarDrawerToggle(this,mdrawlerLayout,R.string.draweropen,R.string.drawerclose){
+            override fun onDrawerClosed(view: View){
+                super.onDrawerClosed(view)
+                //toast("Drawer closed")
+            }
+
+            override fun onDrawerOpened(drawerView: View){
+                super.onDrawerOpened(drawerView)
+                //toast("Drawer opened")
+            }
+        }
+        mdrawlerLayout?.addDrawerListener(mdrawerToggle as ActionBarDrawerToggle)
+        var navigation : NavigationView = findViewById(R.id.navigationview)
+        val nav_header = navigation.getHeaderView(0)
+        usernametv = nav_header.findViewById(R.id.displayname_nav)
+
+        navigation.setNavigationItemSelectedListener {
+           it.isChecked = true
+            val msg = it.title
+            when(it.itemId)
+            {
+                R.id.aboutitem ->{
+                    mdrawlerLayout?.closeDrawer(Gravity.START)
+                    startActivity(Intent(this@FeedActivity,AboutActivity::class.java))
+                }
+
+                R.id.additem ->
+                {
+                    mdrawlerLayout?.closeDrawer(Gravity.START)
+                    startActivity(Intent(this@FeedActivity,AddDiaryActivity::class.java))
+                }
+
+
+
+                R.id.logoutitem ->{ mdrawlerLayout?.closeDrawer(Gravity.START)
+                firebase_auth.signOut()}
+            }
+
+            true
+        }
         firebase_auth_state_listener = object : FirebaseAuth.AuthStateListener{
             override fun onAuthStateChanged(p0: FirebaseAuth) {
                 if(firebase_auth.currentUser != null)
@@ -56,6 +121,8 @@ class FeedActivity : AppCompatActivity() {
         if(firebase_auth.currentUser != null)
         {
             val user = firebase_auth.currentUser
+
+            usernametv?.text = user?.displayName.toString()
             showMessage(user?.displayName.toString())
             diaryadapter = DiaryAdapter(diary_list, this@FeedActivity)
             feed_recycler_view.layoutManager = LinearLayoutManager(this@FeedActivity)
@@ -87,19 +154,43 @@ class FeedActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
-        when(item?.itemId)
+        val f = mdrawerToggle?.onOptionsItemSelected(item) as Boolean
+        if(f)
         {
-            R.id.add_new ->{
-                startActivity(Intent(this,AddDiaryActivity::class.java))
-                finish()
-            }
 
-            R.id.signout_feed_layoult ->{
-                firebase_auth.signOut()
-            }
-
+            mdrawlerLayout?.openDrawer(Gravity.START)
+            return true
         }
+        else{
+            when(item?.itemId)
+            {
+
+
+
+                R.id.add_new ->{
+                    startActivity(Intent(this,AddDiaryActivity::class.java))
+
+                }
+
+                R.id.signout_feed_layoult ->{
+                    firebase_auth.signOut()
+                }
+
+                R.id.sync ->{
+                    //syncToCloud(diary_list)
+                }
+
+
+            }
+        }
+
+
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onPostCreate(savedInstanceState, persistentState)
+        mdrawerToggle?.syncState()
     }
 
     inner class FeedAsyncTask(val db : DiaryDataBase?) : AsyncTask<Void, Void, List<DairyItem>>()
