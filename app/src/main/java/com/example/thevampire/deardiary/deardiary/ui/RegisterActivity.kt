@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.widget.ProgressBar
 import com.example.thevampire.deardiary.R
 import com.example.thevampire.deardiary.deardiary.utils.isValidEmail
 import com.example.thevampire.deardiary.deardiary.utils.showMessage
@@ -19,14 +20,14 @@ class RegisterActivity : AppCompatActivity() {
 
 
     var firebaseauth = FirebaseAuth.getInstance()
-
+    lateinit var progress_bar : ProgressBar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         setSupportActionBar(findViewById(R.id.register_toolbar))
+        supportActionBar?.title = "Register User"
 
-
-
+        progress_bar = findViewById(R.id.progress_bar)
 
 
 

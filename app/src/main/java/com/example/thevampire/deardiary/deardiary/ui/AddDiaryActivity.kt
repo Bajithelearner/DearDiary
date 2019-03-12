@@ -32,6 +32,7 @@ class AddDiaryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_diary)
         setSupportActionBar(findViewById(R.id.mytoolbar))
+        supportActionBar?.title = "Add Note"
         firebase_auth = FirebaseAuth.getInstance()
     }
 
@@ -54,8 +55,9 @@ class AddDiaryActivity : AppCompatActivity() {
             val dairy  = DairyItem(null,sdf.toUpperCase(),title.text.toString(),body.text.toString())
             insert(dairy)
 
-            Toast.makeText(this,"Inserted",Toast.LENGTH_LONG).show()
-            startActivity(Intent(this,FeedActivity::class.java))
+            val intent = Intent(this@AddDiaryActivity,FeedActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
             finish()
 
         }

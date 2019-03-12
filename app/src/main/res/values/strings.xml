@@ -7,4 +7,5 @@
     <string name="draweropen">Open</string>
     <string name="drawerclose">Close</string>
     <string name="title_activity_diary_body">DiaryBodyActivity</string>
+    <string name="about_app">This application is built for learning purpose only, many more features and updates to come as i learn more concepts, thank you.</string>
 </resources>

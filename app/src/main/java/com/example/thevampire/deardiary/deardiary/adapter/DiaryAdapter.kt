@@ -40,29 +40,26 @@ class DiaryAdapter(var diary_list : ArrayList<DairyItem>, val context : Context)
 
         //val sdf = SimpleDateFormat("dd-MM-yyyy, HH : MM a").format(now)
         holder.view_item_holder_date?.text = diary_list[position].date
-        holder.view_parent_item.setOnClickListener(View.OnClickListener {
-            Toast.makeText(context,diary_list[position].title,Toast.LENGTH_LONG).show()
+        holder.view_parent_item.setOnClickListener {
+
             val i = Intent(context, DiaryBodyActivity::class.java)
             i.putExtra("dairy_title_key",title)
             context.startActivity(i)
         }
-        )
         holder.view_parent_item.setOnLongClickListener {holdIt ->
 
             val alertDialog = AlertDialog.Builder(context)
             alertDialog.setMessage("Are you Sure?")
                     .setTitle("Delete")
-                    .setPositiveButton("Yes",DialogInterface.OnClickListener{
-                        dialog, which ->
+                    .setPositiveButton("Yes") { dialog, which ->
                         removefromDB(diary_list[position])
                         removefromDataSet(position)
                         Toast.makeText(context,"Deleted",Toast.LENGTH_SHORT).show()
                         dialog.dismiss()
-                    })
-                    .setNegativeButton("Cancel",DialogInterface.OnClickListener{
-                        dialog, which ->
+                    }
+                    .setNegativeButton("Cancel") { dialog, which ->
                         dialog.dismiss()
-                    }).create()
+                    }.create()
          alertDialog.show()
 
 

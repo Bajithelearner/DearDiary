@@ -22,7 +22,7 @@
         android:layout_below="@+id/mytoolbar"
         android:ems="10"
         android:hint="Title"
-        android:inputType="textPersonName" />
+        android:inputType="textCapWords" />
 
     <EditText
         android:id="@+id/edit_data"
@@ -33,7 +33,7 @@
         android:enabled="true"
         android:gravity="top"
         android:hint="Write Here"
-        android:inputType="text|textMultiLine"
+        android:inputType="textCapWords|textMultiLine"
         android:scrollbars="vertical" />
 
 </RelativeLayout>

@@ -1,55 +1,34 @@
 package com.example.thevampire.deardiary.deardiary.utils
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.support.design.widget.Snackbar
+import android.util.Log
 import android.view.View
 import com.example.thevampire.deardiary.deardiary.ui.AddDiaryActivity
 import com.example.thevampire.deardiary.deardiary.ui.FeedActivity
 import com.example.thevampire.deardiary.deardiary.ui.MainActivity
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 
 class FireBaseAuthUtil(context : Context) {
-    var firebase_auth = FirebaseAuth.getInstance()
+
     val ctx = context
 
-        fun signIn_with_Email(v : View?, email : String, password : String)
+        fun signIn_with_Email()
     {
 
 
         var isSuccess = true
-        firebase_auth.signInWithEmailAndPassword(email,password).addOnCompleteListener {
-            task ->
 
-            if(task.isSuccessful)
-            {
-                if(task.result.user.isEmailVerified)
-                {
-                    val intent = Intent(ctx, FeedActivity::class.java)
-                    ctx.startActivity(intent)
-                }
-                else
-                {
-                    showMessage(v,"Verify your email address and login")
-                }
-
-
-            }
-            else
-            {
-                showMessage(v,"Failed "+{task?.exception?.message}.toString() )
-            }
-        }
 
 
 
     }
-    private fun showMessage(v: View?, msg : String)
-    {
-        val vv : View = v as View
-        Snackbar.make(vv ,msg, Snackbar.LENGTH_SHORT).show()
-    }
+
 
 
 }

@@ -16,6 +16,7 @@ import android.util.Log
 import android.view.*
 import android.widget.TextView
 import android.widget.Toast
+import com.afollestad.materialdialogs.MaterialDialog
 import com.example.thevampire.deardiary.deardiary.adapter.DiaryAdapter
 import com.example.thevampire.deardiary.R
 import com.example.thevampire.deardiary.deardiary.database.DiaryDataBase
@@ -28,6 +29,8 @@ import kotlinx.android.synthetic.main.activity_diary_body.*
 import kotlinx.android.synthetic.main.activity_feed.*
 import org.jetbrains.anko.*
 import com.example.thevampire.deardiary.R.layout.toolbar
+import com.example.thevampire.deardiary.deardiary.utils.SessionManager
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header_layout.*
 import org.w3c.dom.Text
 
@@ -44,17 +47,17 @@ class FeedActivity : AppCompatActivity() {
     var mdrawerToggle : ActionBarDrawerToggle? = null
     var usernametv : TextView? = null
     lateinit var firebase_auth_state_listener : FirebaseAuth.AuthStateListener
+    private lateinit var session : SessionManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_feed)
-
+        session = SessionManager(this)
 
         setSupportActionBar(findViewById(R.id.feed_toolbar))
-        val actionbar : ActionBar? = supportActionBar
-        actionbar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            //setHomeAsUpIndicator(R.drawable.slide_icon)
+        supportActionBar?.title = "Active Notes"
 
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
         }
 
 
@@ -62,6 +65,7 @@ class FeedActivity : AppCompatActivity() {
 
 
         mdrawerToggle?.isDrawerIndicatorEnabled = true
+
         mdrawlerLayout = findViewById(R.id.mdawlerlayout)
         mdrawerToggle =  object : ActionBarDrawerToggle(this,mdrawlerLayout,R.string.draweropen,R.string.drawerclose){
             override fun onDrawerClosed(view: View){
@@ -74,6 +78,9 @@ class FeedActivity : AppCompatActivity() {
                 //toast("Drawer opened")
             }
         }
+
+        mdrawerToggle?.syncState()
+
         mdrawlerLayout?.addDrawerListener(mdrawerToggle as ActionBarDrawerToggle)
         var navigation : NavigationView = findViewById(R.id.navigationview)
         val nav_header = navigation.getHeaderView(0)
@@ -86,7 +93,9 @@ class FeedActivity : AppCompatActivity() {
             {
                 R.id.aboutitem ->{
                     mdrawlerLayout?.closeDrawer(Gravity.START)
-                    startActivity(Intent(this@FeedActivity,AboutActivity::class.java))
+                   // startActivity(Intent(this@FeedActivity,AboutActivity::class.java))
+//                    MaterialDialog(this@FeedActivity).title(text = "About the App")
+//                            .message(res = R.string.about_app).positiveButton(text = "Okay").show()
                 }
 
                 R.id.additem ->
@@ -97,8 +106,13 @@ class FeedActivity : AppCompatActivity() {
 
 
 
-                R.id.logoutitem ->{ mdrawlerLayout?.closeDrawer(Gravity.START)
-                firebase_auth.signOut()}
+                R.id.logoutitem ->{
+                    mdrawlerLayout?.closeDrawer(Gravity.START)
+                    Toast.makeText(this@FeedActivity,"Signing out",Toast.LENGTH_SHORT).show()
+                    firebase_auth.signOut()
+                    //startActivity(Intent(this@FeedActivity,MainActivity::class.java))
+                    finish()
+                }
             }
 
             true
@@ -112,6 +126,7 @@ class FeedActivity : AppCompatActivity() {
                 else
                 {
                     startActivity(Intent(this@FeedActivity,MainActivity::class.java))
+                    session.deleteUser()
                     finish()
                 }
             }
@@ -122,7 +137,7 @@ class FeedActivity : AppCompatActivity() {
         {
             val user = firebase_auth.currentUser
 
-            usernametv?.text = user?.displayName.toString()
+            usernametv?.text = user?.displayName
             //showMessage(user?.displayName.toString())
             diaryadapter = DiaryAdapter(diary_list, this@FeedActivity)
             feed_recycler_view.layoutManager = LinearLayoutManager(this@FeedActivity)

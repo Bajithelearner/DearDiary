@@ -20,6 +20,6 @@
 
 
         android:padding="30dp"
-        android:text="This application is built for learning purpose only, many more features and updates to come as i learn more concepts, thank you."
+        android:text="@string/about_app"
         android:textSize="24dp" />
 </RelativeLayout>

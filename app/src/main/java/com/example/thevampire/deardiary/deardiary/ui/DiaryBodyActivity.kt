@@ -1,5 +1,6 @@
 package com.example.thevampire.deardiary.deardiary.ui
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -27,6 +28,7 @@ class DiaryBodyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_diary_body)
         setSupportActionBar(findViewById(R.id.body_toolbar))
+
         setUpIntent()
         body_edit_text = diary_body
 
@@ -42,7 +44,7 @@ class DiaryBodyActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if(diary_body.text.toString() != diaryItem?.body)
                 {
-                    Toast.makeText(this@DiaryBodyActivity,diary_body.text.trim(),Toast.LENGTH_LONG).show()
+
                     menu?.findItem(R.id.Updatebtn)?.isVisible = true
                 }
                 if(diary_body.text.toString() == diaryItem?.body)
@@ -65,13 +67,14 @@ class DiaryBodyActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId)
         {
-            R.id.Updatebtn -> {Toast.makeText(this,"Update",Toast.LENGTH_LONG).show()
+            R.id.Updatebtn -> {
                 diaryItem?.body = diary_body.text.toString()
                 var rowUpdateResult : Int?
                 doAsync {
                    rowUpdateResult =  DiaryDataBase.getInstance(this@DiaryBodyActivity)?.getDao()?.updateBody(diaryItem)
                     uiThread {
-                        Toast.makeText(this@DiaryBodyActivity,rowUpdateResult.toString(),Toast.LENGTH_LONG).show()
+                       Toast.makeText(this@DiaryBodyActivity,"Updated",Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this@DiaryBodyActivity,FeedActivity::class.java))
                     }
                 }
 
@@ -83,8 +86,8 @@ class DiaryBodyActivity : AppCompatActivity() {
    private fun setUpIntent()
     {
         val title = intent?.extras?.get("dairy_title_key") as String
-
-        doAsync {
+        supportActionBar?.title = title
+                doAsync {
               diaryItem  = DiaryDataBase.getInstance(this@DiaryBodyActivity)?.getDao()?.getBody(title)
             uiThread { diary_body?.setText(diaryItem?.body.toString())  }
         }

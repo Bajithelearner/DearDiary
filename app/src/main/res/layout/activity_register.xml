@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/register_activity"
     android:layout_width="match_parent"
@@ -14,48 +18,62 @@
         android:layout_height="wrap_content"
         android:visibility="visible" />
 
-    <EditText
-        android:id="@+id/edit_name"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:ems="10"
-        android:hint="Full Name"
-        android:inputType="textPersonName" />
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:orientation="vertical"
 
-    <EditText
-        android:id="@+id/edit_email"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/edit_password"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="-212dp"
-        android:ems="10"
-        android:hint="Email Address"
-        android:inputType="textEmailAddress" />
+       android:layout_marginTop="20dp"
+       android:layout_marginLeft="60dp"
+       android:layout_marginRight="60dp"
+       android:layout_height="match_parent">
+       <EditText
+           android:id="@+id/edit_name"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           style="@style/CustomTextView"
+           android:layout_margin="10dp"
+           android:ems="10"
+           android:hint="Full Name"
+           android:inputType="textPersonName" />
 
-    <EditText
-        android:id="@+id/edit_password"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+       <EditText
+           android:id="@+id/edit_email"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           style="@style/CustomTextView"
+           android:layout_margin="10dp"
+           android:ems="10"
+           android:hint="Email Address"
+           android:inputType="textEmailAddress" />
 
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="231dp"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword" />
+       <EditText
+           android:id="@+id/edit_password"
+           android:layout_width="match_parent"
+           style="@style/CustomTextView"
+           android:layout_margin="10dp"
+           android:layout_height="wrap_content"
 
-    <Button
-        android:id="@+id/register_btn"
-        android:onClick="register"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="167dp"
-        android:background="@color/colorPrimaryDark"
-        android:text="Register" />
-</RelativeLayout>
+           android:ems="10"
+           android:hint="Password"
+           android:inputType="textPassword" />
+
+       <Button
+           android:id="@+id/register_btn"
+           android:onClick="register"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+
+           android:layout_marginTop="20dp"
+           android:background="@color/colorPrimaryDark"
+           android:text="Register" />
+
+   </LinearLayout>
+
+</LinearLayout>
+<ProgressBar
+android:layout_width="50dp"
+android:visibility="gone"
+android:id="@+id/progress_bar"
+android:layout_gravity="center"
+android:layout_height="50dp" />
+</FrameLayout>

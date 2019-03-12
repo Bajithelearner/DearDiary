@@ -9,4 +9,8 @@ class AsyncBackgroundTask(val mdb : DiaryDataBase?) : AsyncTask<DairyItem, Void,
         mdb?.getDao()?.add(params[0])
         return null
     }
+
+    override fun onPostExecute(result: Void?) {
+        super.onPostExecute(result)
+    }
 }
