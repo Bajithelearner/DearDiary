@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1094930837764",
+    "firebase_url": "https://dear-diary-007.firebaseio.com",
+    "project_id": "dear-diary-007",
+    "storage_bucket": "dear-diary-007.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1094930837764:android:f868f47c73948486",
+        "android_client_info": {
+          "package_name": "com.example.thevampire.deardiary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1094930837764-suvka8aiv63086ag4b8i0gsmo4ml5s8u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCna7EBmv_RRYbVF-hHbvuj3T862gLtrGk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

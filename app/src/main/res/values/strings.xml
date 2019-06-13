@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Dear Diary</string>
+    <string name="forgotpassword">Forgot Password?</string>
+    <string name="register_label">Register</string>
+    <string name="add_today">Add New</string>
+    <string name="feed">Your Notes</string>
+    <string name="draweropen">Open</string>
+    <string name="drawerclose">Close</string>
+    <string name="title_activity_diary_body">DiaryBodyActivity</string>
+    <string name="about_app">This application is built for learning purpose only, many more features and updates to come as i learn more concepts, thank you.</string>
+</resources>

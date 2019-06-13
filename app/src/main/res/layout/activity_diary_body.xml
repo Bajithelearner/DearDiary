@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".deardiary.ui.DiaryBodyActivity"
+    >
+
+    <include
+        android:id="@+id/body_toolbar"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible" />
+
+
+    <EditText
+        android:id="@+id/diary_body"
+
+        android:layout_width="match_parent"
+        android:layout_height= "match_parent"
+        android:layout_weight="1"
+        android:inputType="textCapWords|textMultiLine"
+        android:scrollbars="vertical"
+        android:ems="10"
+        android:gravity="top"
+        android:textSize="20sp"
+        android:padding="20dp"
+        />
+</LinearLayout>
